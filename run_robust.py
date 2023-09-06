@@ -4,10 +4,6 @@ configs = glob.glob("config/*.yaml")
 # print(configs)
 models = {
           "ddpm":"ddpm_celeba256_1000",
-        #   "ddim":"ddim_celeba256_200",
-        #   "pndm":"pndm_celeba256_250",
-        #   "ncsnpp":"ncsnpp_celeba256",
-        #   "ldm":"ldm_celeba256_200",
           "wavediff":"wavediff_celeba256",
           }
 

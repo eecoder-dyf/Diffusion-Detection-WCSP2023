@@ -64,12 +64,6 @@ class Network(nn.Module):
         image = x[:,0:3,:,:]
         _, _, LL1, LH1, HL1, HH1 = self.wavelet1(image)
 
-        # utils.save_tensor_image(image, "ori.png")
-        # utils.save_tensor_image(LL1, "LL1.png")
-        # utils.save_tensor_image(LH1, "LH1.png")
-        # utils.save_tensor_image(HL1, "HL1.png")
-        # utils.save_tensor_image(HH1, "HH1.png")
-        # raise ValueError("stop")
 
         feat1 = self.backbone0(x)
         attn1 = self.attn1(LH1, HL1, HH1, feat1)
@@ -77,20 +71,20 @@ class Network(nn.Module):
         LL1 = self.convll1(LL1)
         
         feat2 = self.backbone1(self.conv01(torch.cat([feat1, attn1], dim=1)))
-        # feat2 = self.backbone1(feat1 + attn1)
+        
         _, _, LL2, LH2, HL2, HH2 = self.wavelet2(LL1)
         attn2 = self.attn2(LH2, HL2, HH2, feat2)
         wavefeat2 = self.backbone23(attn2)
         LL2 = self.convll2(LL2)
 
         feat3 = self.backbone2(self.conv12(torch.cat([feat2, attn2], dim=1)))
-        # feat3 = self.backbone2(feat2 + attn2)
+        
         _, _, LL3, LH3, HL3, HH3 = self.wavelet3(LL2)
         attn3 = self.attn3(LH3, HL3, HH3, feat3)
         wavefeat3 = self.backbone33(attn3)
 
         feat4 = self.backbone3(self.conv23(torch.cat([feat3, attn3], dim=1)))
-        # feat4 = self.backbone3(feat3 + attn3)
+        
         feat5 = self.catlayer(torch.cat([wavefeat1, wavefeat2, wavefeat3, feat4], dim=1))
         feat5 = self.backbone4(feat5)
         fc_in = self.avg_pool(feat5)
