@@ -1,0 +1,11 @@
+g-noise:
+  p : 0.0
+  variance : 10.0
+sp-noise:
+  p : 0.0
+  density : 0.05
+blur:
+  p : 1.0
+  kernel-size : 3
+  sigma : 1.0
+jpeg: 0
