@@ -120,8 +120,7 @@ class FakeDataset(Dataset):
             mask_image = self.saltpepper_noise(mask_image)
             mask_image = self.jpeg_compress(mask_image, self.jpeg)
 
-            # mask_image = transforms.ToTensor()(mask_image)
-            mask_image = self.transforms(mask_image)
+            mask_image = transforms.ToTensor()(mask_image)
             image = torch.cat([image, mask_image], dim=0)
 
         
@@ -176,12 +175,3 @@ class AddGaussianNoise(object):
             return img
         else:
             return img
-
-
-
-
-if __name__ == "__main__":
-    dataset = FakeDataset("/mnt/d/diffusion_faces/dataset", real_data="celeba_hq_256", fake_data="ldm_celeba256_200", resoultion=(256,256), normalize=True, phase="train", mask=True)
-    dataloader = DataLoader(dataset, batch_size=1, num_workers=4, shuffle=True, pin_memory=True)
-    for i, d in enumerate(dataloader):
-        print(d["image"].shape, end='')
